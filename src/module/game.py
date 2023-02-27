@@ -5,6 +5,9 @@ board_size = 4  # tamanho do tabuleiro
 MAGNITUDE = 1000  # magnitude para baralhar o tabuleiro
 
 # Tabuleiro inicial:
+
+board_inicial1=[[1,2,3,4],[5,6,7,8],[9,10,11,0],[13,14,15,12]]
+
 board_inicial = [["|  1 |", "|  2 |", "|  3 |", "|  4 |"],
                  ["|  5 |", "|  6 |", "|  7 |", "|  8 |"],
                  ["|  9 |", "| 10 |", "| 11 |", "| __ |"],
@@ -48,7 +51,7 @@ def is_solvable(board):
 def encontrar_vazio(board):
     for _x in range(board_size):
         for _y in range(board_size):
-            if board[_x][_y] == "| __ |":
+            if board[_x][_y] == 0:
                 return _x, _y
 
 
@@ -100,6 +103,24 @@ def jogada(board, x):
 #descendentes
 def descendente(board):
     sucessores=[]
+    _x,_y=encontrar_vazio(board)
+    if _x>0:
+        copy_board=board
+        copy_board[_x][_y], copy_board[_x-1][_y+0] = copy_board[_x-1][_y+0],copy_board[_x][_y]
+        sucessores.append(copy_board)
+    if _x<3:
+        copy_board=board
+        copy_board[_x][_y], copy_board[_x+1][_y+0] = copy_board[_x+1][_y+0],copy_board[_x][_y]
+        sucessores.append(copy_board)
+    if _y>0:
+        copy_board=board
+        copy_board[_x][_y], copy_board[_x+0][_y-1] = copy_board[_x+0][_y-1],copy_board[_x][_y]
+        sucessores.append(copy_board)
+    if _y<3:
+        copy_board=board
+        copy_board[_x][_y], copy_board[_x+0][_y+1] = copy_board[_x+0][_y+1],copy_board[_x][_y]
+        sucessores.append(copy_board)
+
 
     desc_up = move_up(board)
     sucessores.append(desc_up)
@@ -149,7 +170,7 @@ def shuffle(board):
         m = randint(1, 4)
         jogada(board, m)
 
-
+'''
 def jogar(board, goal):
     jogadas = 0
 
@@ -176,3 +197,6 @@ def jogar(board, goal):
 
 
 jogar(board_inicial, board_goal)
+'''
+
+print(descendente(board_inicial1))
