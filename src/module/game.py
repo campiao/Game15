@@ -89,6 +89,28 @@ def jogada(board,x):
         move_left(board)
     return board
 
+def heuristicadistancia(board):
+    distancia = 0
+    for i in range(4):
+        for j in range(4):
+            peca = board[i][j]
+            if peca != 0:
+                linha_objetivo = (peca - 1) // 4
+                coluna_objetivo = (peca - 1) % 4
+                distancia += abs(i - linha_objetivo) + abs(j - coluna_objetivo)
+    return distancia
+
+
+def heuristicalugar(board):
+    distancia = 0
+    for i in range(4):
+        for j in range(4):
+            peca = board[i][j]
+            if peca != 0:
+                linha_objetivo = (peca - 1) // 4
+                coluna_objetivo = (peca - 1) % 4
+                distancia += abs(i - linha_objetivo) + abs(j - coluna_objetivo)
+    return distancia
 
 #baralhar o tabuleiro
 def shuffle(board):
