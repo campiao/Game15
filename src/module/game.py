@@ -3,7 +3,7 @@ from os import system
 
 board_size = 4 #tamanho do tabuleiro
 MAGNITUDE = 1000 #magnitude para baralhar o tabuleiro
-
+a
 #Tabuleiro inicial:
 board_inicial = [["|  1 |", "|  2 |", "|  3 |", "|  4 |"],
                  ["|  5 |", "|  6 |", "|  7 |", "|  8 |"],
