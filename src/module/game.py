@@ -106,8 +106,10 @@ def descendente(board):
     _x,_y=encontrar_vazio(board)
     if _x>0:
         copy_board=board
+        print(board)
         copy_board[_x][_y], copy_board[_x-1][_y+0] = copy_board[_x-1][_y+0],copy_board[_x][_y]
         sucessores.append(copy_board)
+        print(board)
     if _x<3:
         copy_board=board
         copy_board[_x][_y], copy_board[_x+1][_y+0] = copy_board[_x+1][_y+0],copy_board[_x][_y]
@@ -120,24 +122,6 @@ def descendente(board):
         copy_board=board
         copy_board[_x][_y], copy_board[_x+0][_y+1] = copy_board[_x+0][_y+1],copy_board[_x][_y]
         sucessores.append(copy_board)
-
-
-    desc_up = move_up(board)
-    sucessores.append(desc_up)
-    move_down(board) #contraria o movimento
-
-    desc_right = move_right(board)
-    sucessores.append(desc_right)
-    move_left(board)
-
-    desc_down = move_down(board)
-    sucessores.append(desc_down)
-    move_up(board)
-
-    desc_left = move_left(board)
-    sucessores.append(desc_left)
-    move_right(board)
-
     return  sucessores
 
 
