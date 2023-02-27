@@ -5,19 +5,10 @@ board_size = 4  # tamanho do tabuleiro
 MAGNITUDE = 1000  # magnitude para baralhar o tabuleiro
 
 # Tabuleiro inicial:
-
-board_inicial1=[[1,2,3,4],[5,6,7,8],[9,10,11,0],[13,14,15,12]]
-
-board_inicial = [["|  1 |", "|  2 |", "|  3 |", "|  4 |"],
-                 ["|  5 |", "|  6 |", "|  7 |", "|  8 |"],
-                 ["|  9 |", "| 10 |", "| 11 |", "| __ |"],
-                 ["| 13 |", "| 14 |", "| 15 |", "| 12 |"]]
+board_inicial = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,0,15]]
 
 # Tabuleiro objetivo:
-board_goal = [["|  1 |", "|  2 |", "|  3 |", "|  4 |"],
-              ["|  5 |", "|  6 |", "|  7 |", "|  8 |"],
-              ["|  9 |", "| 10 |", "| 11 |", "| 12 |"],
-              ["| 13 |", "| 14 |", "| 15 |", "| __ |"]]
+board_goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
 
 
 # --------------------------------------------------------------------------
@@ -28,9 +19,18 @@ def imprimir_tabuleiro(board):
     print("\n|++++++++++++++++++++++|")
     for linha in range(board_size):
         for coluna in range(board_size):
-            print(board[linha][coluna], end="")
+
+            if(0<board[linha][coluna]<10):
+             print("| ",board[linha][coluna],"|", end="")
+
+            if(board[linha][coluna]>=10):
+             print("|",board[linha][coluna],"|", end="")
+            
+            if(board[linha][coluna]==0):
+                print("| __ |", end="")
         print("\n|++++++++++++++++++++++|")
     print("\n")
+
 
 
 def count_inversions(board):
@@ -173,7 +173,6 @@ def shuffle(board):
 '''
 def jogar(board, goal):
     jogadas = 0
-
     print("\nO teu objetivo é chegar a esta configuração")
     imprimir_tabuleiro(goal)
     j = input("j para começar a jogar: ")
@@ -187,16 +186,13 @@ def jogar(board, goal):
             x = input("Mover para: ")
             if (x == "p"):
                 break
-
             if (jogada(board, x)):
                 jogadas += 1  # como faço para não contar jogadas ilegais
                 imprimir_tabuleiro(board)
         system("clear")
         imprimir_tabuleiro(board)
         print("Finalizaste o Puzzle\n")
-
-
 jogar(board_inicial, board_goal)
 '''
 
-print(descendente(board_inicial1))
+print(descendente(board_inicial))
