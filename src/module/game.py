@@ -53,28 +53,32 @@ def encontrar_vazio(board):
 
 
 #vê a legalidade de um movimento e executa esse movimento
-def move(board,x,y):
+def move_legalidade(board,x,y):
     _x, _y = encontrar_vazio(board)
 
     if (_x + x < 0) or (_x + x > 3) or (_y + y < 0) or (_y + y > 3): #ilegalidades
         return False
-
-    board[_x][_y], board[_x+x][_y+y] = board[_x+x][_y+y],board[_x][_y] #faz a jogada
     return True
+
+def do_move(board,x,y):
+    if(move_legalidade(board,x,y)):
+        _x, _y = encontrar_vazio(board)
+        board[_x][_y], board[_x+x][_y+y] = board[_x+x][_y+y],board[_x][_y] #faz a jogada
+        return board
 
 
 #possíveis movimentos
 def move_up(board):
-    return move(board,-1, 0)
+    return do_move(board,-1, 0)
 
 def move_right(board):
-    return move(board,0, 1)
+    return do_move(board,0, 1)
 
 def move_down(board):
-    return move(board,1, 0)
+    return do_move(board,1, 0)
 
 def move_left(board):
-    return move(board,0, -1)
+    return do_move(board,0, -1)
 
 
 #lê a jogada do jogador e executa
@@ -88,6 +92,29 @@ def jogada(board,x):
     if x == "a" or x == 4:
         move_left(board)
     return board
+
+#descendentes
+def descendente(board):
+    sucessores=[] 
+
+    desc_up = move_up(board)
+    sucessores.append(desc_up)
+    move_down(board) #contraria o movimento 
+
+    desc_right = move_right(board)
+    sucessores.append(desc_right)
+    move_left(board)
+
+    desc_down = move_down(board)
+    sucessores.append(desc_down)
+    move_up(board)
+
+    desc_left = move_left(board)
+    sucessores.append(desc_left)
+    move_right(board)
+
+    return  sucessores
+
 
 def heuristicadistancia(board):
     distancia = 0
@@ -119,7 +146,7 @@ def shuffle(board):
         m = randint(1,4)
         jogada(board,m)
 
-
+'''
 def jogar(board,goal):
     jogadas = 0
 
@@ -146,3 +173,6 @@ def jogar(board,goal):
 
 
 jogar(board_inicial,board_goal)#
+'''
+
+print(descendente(board_inicial))
