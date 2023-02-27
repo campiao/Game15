@@ -25,7 +25,7 @@ def imprimir_tabuleiro(board):
     print("\n|++++++++++++++++++++++|")
     for linha in range(board_size):
         for coluna in range(board_size):
-            print(board[linha][coluna],end="")
+            print(board[linha][coluna],end="")#
         print("\n|++++++++++++++++++++++|")
     print("\n")
 
