@@ -83,6 +83,7 @@ def move_down(board):
 def move_left(board):
     return do_move(board,0, -1)
 
+#teste
 
 # lê a jogada do jogador e executa
 def jogada(board, x):
