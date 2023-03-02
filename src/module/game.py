@@ -1,5 +1,6 @@
 from random import randint, seed
 from os import system
+import copy
 
 board_size = 4  # tamanho do tabuleiro
 MAGNITUDE = 1000  # magnitude para baralhar o tabuleiro
@@ -105,21 +106,19 @@ def descendente(board):
     sucessores=[]
     _x,_y=encontrar_vazio(board)
     if _x>0:
-        copy_board=board
-        print(board)
+        copy_board=copy.deepcopy(board)
         copy_board[_x][_y], copy_board[_x-1][_y+0] = copy_board[_x-1][_y+0],copy_board[_x][_y]
         sucessores.append(copy_board)
-        print(board)
     if _x<3:
-        copy_board=board
+        copy_board=copy.deepcopy(board)
         copy_board[_x][_y], copy_board[_x+1][_y+0] = copy_board[_x+1][_y+0],copy_board[_x][_y]
         sucessores.append(copy_board)
     if _y>0:
-        copy_board=board
+        copy_board=copy.deepcopy(board)
         copy_board[_x][_y], copy_board[_x+0][_y-1] = copy_board[_x+0][_y-1],copy_board[_x][_y]
         sucessores.append(copy_board)
     if _y<3:
-        copy_board=board
+        copy_board=copy.deepcopy(board)
         copy_board[_x][_y], copy_board[_x+0][_y+1] = copy_board[_x+0][_y+1],copy_board[_x][_y]
         sucessores.append(copy_board)
     return  sucessores
