@@ -2,36 +2,47 @@ from random import randint, seed
 from os import system
 import copy
 
-board_size = 4  # tamanho do tabuleiro
+BOARD_SIZE = 4  # tamanho do tabuleiro
 MAGNITUDE = 1000  # magnitude para baralhar o tabuleiro
 
-# Tabuleiro inicial:
-board_inicial = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,0,15]]
+# Tabuleiro inicial (placeholder):
+board_inicial = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 0, 15]]
 
-# Tabuleiro objetivo:
-board_goal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
+# Tabuleiro objetivo (placeholder):
+board_goal = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 0]]
 
 
 # --------------------------------------------------------------------------
+
+def set_board(board, tipo):
+    if tipo == 1:
+        prompt = "Introduz a board inicial: "
+    else:
+        prompt = "Introduz a board final: "
+    x = [int(x) for x in input(prompt).split()]
+    count = 0
+    for i in range(BOARD_SIZE):
+        for j in range(BOARD_SIZE):
+            board[i][j] = x[count]
+            count += 1
 
 
 # Função para imprimir o tabuleiro:
 def imprimir_tabuleiro(board):
     print("\n|++++++++++++++++++++++|")
-    for linha in range(board_size):
-        for coluna in range(board_size):
+    for linha in range(BOARD_SIZE):
+        for coluna in range(BOARD_SIZE):
 
-            if(0<board[linha][coluna]<10):
-             print("| ",board[linha][coluna],"|", end="")
+            if (0 < board[linha][coluna] < 10):
+                print("| ", board[linha][coluna], "|", end="")
 
-            if(board[linha][coluna]>=10):
-             print("|",board[linha][coluna],"|", end="")
-            
-            if(board[linha][coluna]==0):
+            if (board[linha][coluna] >= 10):
+                print("|", board[linha][coluna], "|", end="")
+
+            if (board[linha][coluna] == 0):
                 print("| __ |", end="")
         print("\n|++++++++++++++++++++++|")
     print("\n")
-
 
 
 def count_inversions(board):
@@ -50,44 +61,46 @@ def is_solvable(board):
 
 # retorna a posição do espaço vazio
 def encontrar_vazio(board):
-    for _x in range(board_size):
-        for _y in range(board_size):
+    for _x in range(BOARD_SIZE):
+        for _y in range(BOARD_SIZE):
             if board[_x][_y] == 0:
                 return _x, _y
 
 
-#vê a legalidade de um movimento e executa esse movimento
-def move_legalidade(board,x,y):
+# vê a legalidade de um movimento e executa esse movimento
+def move_legalidade(board, x, y):
     _x, _y = encontrar_vazio(board)
 
     if (_x + x < 0) or (_x + x > 3) or (_y + y < 0) or (_y + y > 3):  # ilegalidades
         return False
     return True
 
-def do_move(board,x,y):
-    if(move_legalidade(board,x,y)):
+
+def do_move(board, x, y):
+    if (move_legalidade(board, x, y)):
         _x, _y = encontrar_vazio(board)
-        board[_x][_y], board[_x+x][_y+y] = board[_x+x][_y+y],board[_x][_y] #faz a jogada
+        board[_x][_y], board[_x + x][_y + y] = board[_x + x][_y + y], board[_x][_y]  # faz a jogada
         return board
 
 
 # possíveis movimentos
 def move_up(board):
-    return do_move(board,-1, 0)
+    return do_move(board, -1, 0)
 
 
 def move_right(board):
-    return do_move(board,0, 1)
+    return do_move(board, 0, 1)
 
 
 def move_down(board):
-    return do_move(board,1, 0)
+    return do_move(board, 1, 0)
 
 
 def move_left(board):
-    return do_move(board,0, -1)
+    return do_move(board, 0, -1)
 
-#teste
+
+# teste
 
 # lê a jogada do jogador e executa
 def jogada(board, x):
@@ -101,28 +114,28 @@ def jogada(board, x):
         move_left(board)
     return board
 
-#descendentes
-def descendente(board):
-    sucessores=[]
-    _x,_y=encontrar_vazio(board)
-    if _x>0:
-        copy_board=copy.deepcopy(board)
-        copy_board[_x][_y], copy_board[_x-1][_y+0] = copy_board[_x-1][_y+0],copy_board[_x][_y]
-        sucessores.append(copy_board)
-    if _x<3:
-        copy_board=copy.deepcopy(board)
-        copy_board[_x][_y], copy_board[_x+1][_y+0] = copy_board[_x+1][_y+0],copy_board[_x][_y]
-        sucessores.append(copy_board)
-    if _y>0:
-        copy_board=copy.deepcopy(board)
-        copy_board[_x][_y], copy_board[_x+0][_y-1] = copy_board[_x+0][_y-1],copy_board[_x][_y]
-        sucessores.append(copy_board)
-    if _y<3:
-        copy_board=copy.deepcopy(board)
-        copy_board[_x][_y], copy_board[_x+0][_y+1] = copy_board[_x+0][_y+1],copy_board[_x][_y]
-        sucessores.append(copy_board)
-    return  sucessores
 
+# descendentes
+def descendente(board):
+    sucessores = []
+    _x, _y = encontrar_vazio(board)
+    if _x > 0:
+        copy_board = copy.deepcopy(board)
+        copy_board[_x][_y], copy_board[_x - 1][_y + 0] = copy_board[_x - 1][_y + 0], copy_board[_x][_y]
+        sucessores.append(copy_board)
+    if _x < 3:
+        copy_board = copy.deepcopy(board)
+        copy_board[_x][_y], copy_board[_x + 1][_y + 0] = copy_board[_x + 1][_y + 0], copy_board[_x][_y]
+        sucessores.append(copy_board)
+    if _y > 0:
+        copy_board = copy.deepcopy(board)
+        copy_board[_x][_y], copy_board[_x + 0][_y - 1] = copy_board[_x + 0][_y - 1], copy_board[_x][_y]
+        sucessores.append(copy_board)
+    if _y < 3:
+        copy_board = copy.deepcopy(board)
+        copy_board[_x][_y], copy_board[_x + 0][_y + 1] = copy_board[_x + 0][_y + 1], copy_board[_x][_y]
+        sucessores.append(copy_board)
+    return sucessores
 
 
 def heuristicadistancia(board):
@@ -139,8 +152,8 @@ def heuristicadistancia(board):
 
 def heuristicalugar(board):
     n_errados = 0
-    for i in range(board_size):
-        for j in range(board_size):
+    for i in range(BOARD_SIZE):
+        for j in range(BOARD_SIZE):
             if board[i][j] != board_goal[i][j]:
                 n_errados += 1
     return n_errados
@@ -153,13 +166,14 @@ def shuffle(board):
         m = randint(1, 4)
         jogada(board, m)
 
-'''
+
 def jogar(board, goal):
+    set_board(board_inicial, 1)
+    set_board(board_goal, 0)
     jogadas = 0
     print("\nO teu objetivo é chegar a esta configuração")
     imprimir_tabuleiro(goal)
     j = input("j para começar a jogar: ")
-    shuffle(board)
     if (j == 'j'):
         while (board != goal):
             system("clear")
@@ -175,7 +189,8 @@ def jogar(board, goal):
         system("clear")
         imprimir_tabuleiro(board)
         print("Finalizaste o Puzzle\n")
+
+
 jogar(board_inicial, board_goal)
-'''
 
 print(descendente(board_inicial))
