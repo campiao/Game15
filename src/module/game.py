@@ -1,6 +1,7 @@
 from random import randint, seed
 from os import system
 import copy
+from queue import Queue
 
 BOARD_SIZE = 4  # tamanho do tabuleiro
 MAGNITUDE = 1000  # magnitude para baralhar o tabuleiro
@@ -43,6 +44,7 @@ def imprimir_tabuleiro(board):
                 print("| __ |", end="")
         print("\n|++++++++++++++++++++++|")
     print("\n")
+
 
 
 def count_inversions(board):
@@ -165,6 +167,23 @@ def shuffle(board):
     for i in range(MAGNITUDE):
         m = randint(1, 4)
         jogada(board, m)
+
+def bfs(board):
+    queue=Queue()
+    visited=set()
+    queue.put(board,[])
+    while not queue.empty():
+        node,moves=queue.get()
+        if node==board_goal: 
+            return moves
+        else: 
+            if node not in visited:
+                visited.add(node)
+                next_moves=moves.copy()
+                next_moves.append(descendente(board))
+                for descendente in descendente(node):
+                    if descendente not in visited:
+                        queue.put(descendente)
 
 
 def jogar(board, goal):
