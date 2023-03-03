@@ -15,7 +15,6 @@ def imprimir_tabuleiro(board):
             if board[linha][coluna] == 0:
                 print("| __ |", end="")
         print("\n|++++++++++++++++++++++|")
-    print("\n")
 
 
 def encontrar_vazio(board):
@@ -60,7 +59,7 @@ def is_solvable(board_i, board_f):
     inversions_i = count_inversions(board_i)
     inversions_f = count_inversions(board_f)
     solv_i = inversions_i % 2 == 0
-    solv_f = inversions_f == 0
+    solv_f = inversions_f % 2 == 0
     if solv_i and solv_f:
         return True
     if (solv_i and not solv_f) or (not solv_i and solv_f):

@@ -2,7 +2,7 @@ from sys import argv
 from os import system
 
 from board_config import *
-from ai_searches import bfs, dfs, a_star, greedy, iterativo
+from ai_searches import bfs, dfs, a_star, greedy, iterativo, heuristicalugar, heuristicadistancia
 from board_methods import *
 
 
@@ -44,5 +44,25 @@ def jogar_ai():
         path, time_elapsed, max_nodes = bfs()
         print(path, len(path) - 1, time_elapsed, max_nodes)
     elif ai_search == 'DFS':
-        path = dfs()
-        print(path, len(path) - 1)
+        path, time_elapsed, max_nodes = dfs()
+        print(path, len(path) - 1, time_elapsed)
+    elif ai_search == "Greedy-misplaced":
+        path, time_elapsed, max_nodes = greedy(heuristicalugar)
+        for board in path:
+            imprimir_tabuleiro(board)
+        print(len(path) - 1, time_elapsed, max_nodes)
+    elif ai_search == "Greedy-Manhattan":
+        path, time_elapsed, max_nodes = greedy(heuristicadistancia)
+        for board in path:
+            imprimir_tabuleiro(board)
+        print(len(path) - 1, time_elapsed, max_nodes)
+    elif ai_search == 'A*-misplaced':
+        path, time_elapsed, max_nodes = a_star(heuristicalugar)
+        for board in path:
+            imprimir_tabuleiro(board)
+        print(len(path) - 1, time_elapsed, max_nodes)
+    elif ai_search == 'A*-Manhattan':
+        path, time_elapsed, max_nodes = a_star(heuristicadistancia)
+        for board in path:
+            imprimir_tabuleiro(board)
+        print(len(path) - 1, time_elapsed, max_nodes)

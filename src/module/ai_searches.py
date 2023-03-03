@@ -1,6 +1,7 @@
 from collections import deque
 from board_methods import *
 from time import time
+import heapq
 
 
 def bfs():
@@ -20,6 +21,8 @@ def bfs():
             continue
         visited.add(str(node))
         for succesor in generate_descendente(node):
+            if str(succesor) in visited:
+                continue
             new_path = path + [succesor]
             queue.appendleft(new_path)
     return None
@@ -28,7 +31,8 @@ def bfs():
 def dfs():
     max_nodes = 0
     start_time = time()
-    stack = [[board_inicial]]
+    stack = deque()
+    stack.append([board_inicial])
     visited = set()
     while stack:
         max_nodes = max(max_nodes, len(stack))
@@ -40,17 +44,55 @@ def dfs():
         if str(node) in visited:
             continue
         visited.add(str(node))
-        for succesor in generate_descendente(node):
-            new_path = path + [succesor]
+        for successor in generate_descendente(node):
+            if str(successor) in visited:
+                continue
+            new_path = path + [successor]
             stack.append(new_path)
     return None
 
 
 def a_star(heuristic):
+    max_nodes = 0
+    start_time = time()
+    minheap = []
+    heapq.heappush(minheap, (heuristic(board_inicial), board_inicial, [board_inicial]))
+    visited = set()
+    while minheap:
+        max_nodes = max(max_nodes, len(minheap))
+        heuristic_value, node, path = heapq.heappop(minheap)
+        if node == board_goal:
+            end_time = time()
+            return path, end_time - start_time, max_nodes
+        if str(node) in visited:
+            continue
+        visited.add(str(node))
+        for successor in generate_descendente(node):
+            if str(successor) in visited:
+                continue
+            heapq.heappush(minheap, (len(path) + heuristic(successor), successor, path + [successor]))
     return None
 
 
-def greedy(board):
+def greedy(heuristic):
+    max_nodes = 0
+    start_time = time()
+    minheap = []
+    heapq.heappush(minheap, (heuristic(board_inicial), board_inicial, [board_inicial]))
+    visited = set()
+    while minheap:
+        max_nodes = max(max_nodes, len(minheap))
+        heuristic_value, node, path = heapq.heappop(minheap)
+        if node == board_goal:
+            end_time = time()
+            return path, end_time - start_time, max_nodes
+        if str(node) in visited:
+            continue
+        visited.add(str(node))
+        for successor in generate_descendente(node):
+            if str(successor) in visited:
+                continue
+            heapq.heappush(minheap, (heuristic(successor), successor, path + [successor]))
     return None
 
 
