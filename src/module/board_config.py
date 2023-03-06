@@ -5,7 +5,7 @@ board_goal = []
 
 def read_inicial_n_final_state():
     def set_board(board):
-        x = [int(num) for num in input("Introduzir board inicial e final, respetivamente: ").split()]
+        x = [int(num) for num in input("Introduzir board inicial e final, uma em cada linha: ").split()]
         for i in range(BOARD_SIZE):
             row = []
             for j in range(BOARD_SIZE):

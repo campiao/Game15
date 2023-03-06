@@ -1,7 +1,9 @@
 from collections import deque
-from board_methods import *
 from time import time
 import heapq
+
+from board_methods import generate_descendente
+from board_config import board_inicial, board_goal, BOARD_SIZE
 
 
 def bfs():
@@ -17,10 +19,10 @@ def bfs():
         if node == board_goal:
             end_time = time()
             return path, end_time - start_time, max_nodes
-        if str(node) in visited:
-            continue
         visited.add(str(node))
         for succesor in generate_descendente(node):
+            if str(succesor) in visited:
+                continue
             new_path = path + [succesor]
             queue.appendleft(new_path)
     return None
@@ -39,10 +41,10 @@ def dfs():
         if node == board_goal:
             end_time = time()
             return path, end_time - start_time, max_nodes
-        if str(node) in visited:
-            continue
         visited.add(str(node))
         for successor in generate_descendente(node):
+            if str(successor) in visited:
+                continue
             new_path = path + [successor]
             stack.append(new_path)
     return None
@@ -60,10 +62,10 @@ def a_star(heuristic):
         if node == board_goal:
             end_time = time()
             return path, end_time - start_time, max_nodes
-        if str(node) in visited:
-            continue
         visited.add(str(node))
         for successor in generate_descendente(node):
+            if str(successor) in visited:
+                continue
             heapq.heappush(minheap, (len(path) + heuristic(successor), successor, path + [successor]))
     return None
 
@@ -80,15 +82,15 @@ def greedy(heuristic):
         if node == board_goal:
             end_time = time()
             return path, end_time - start_time, max_nodes
-        if str(node) in visited:
-            continue
         visited.add(str(node))
         for successor in generate_descendente(node):
+            if str(successor) in visited:
+                continue
             heapq.heappush(minheap, (heuristic(successor), successor, path + [successor]))
     return None
 
 
-def iterativo(board):
+def iterativo():
     return None
 
 

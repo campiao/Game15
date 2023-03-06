@@ -1,4 +1,4 @@
-from board_config import board_inicial, board_goal, BOARD_SIZE
+from board_config import BOARD_SIZE
 
 
 def imprimir_tabuleiro(board):
