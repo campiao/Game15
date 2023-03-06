@@ -13,7 +13,7 @@ def jogar_player():
     read_inicial_n_final_state()
     jogadas = 0
     board_atual = board_inicial
-    if not is_solvable(board_inicial, board_goal):
+    if not final_position_reachable(board_inicial, board_goal):
         print("Esta configuração não tem solução...")
         return
     print("\nO objetivo é chegar a esta configuração")
@@ -38,31 +38,26 @@ def jogar_player():
 
 def jogar_ai():
     read_inicial_n_final_state()
+    if not final_position_reachable(board_inicial, board_goal):
+        print("Esta configuração não tem solução...")
+        return
     ai_search = argv[1]
-    print(ai_search)
+    print(f"Metodo AI utilizado: {ai_search}")
     if ai_search == 'BFS':
         path, time_elapsed, max_nodes = bfs()
-        print(path, len(path) - 1, time_elapsed, max_nodes)
+        imprimir_resultados(path, max_nodes, time_elapsed, len(path) - 1)
     elif ai_search == 'DFS':
         path, time_elapsed, max_nodes = dfs()
-        print(path, len(path) - 1, time_elapsed)
+        imprimir_resultados(path, max_nodes, time_elapsed, len(path) - 1)
     elif ai_search == "Greedy-misplaced":
         path, time_elapsed, max_nodes = greedy(heuristicalugar)
-        for board in path:
-            imprimir_tabuleiro(board)
-        print(len(path) - 1, time_elapsed, max_nodes)
+        imprimir_resultados(path, max_nodes, time_elapsed, len(path) - 1)
     elif ai_search == "Greedy-Manhattan":
         path, time_elapsed, max_nodes = greedy(heuristicadistancia)
-        for board in path:
-            imprimir_tabuleiro(board)
-        print(len(path) - 1, time_elapsed, max_nodes)
+        imprimir_resultados(path, max_nodes, time_elapsed, len(path) - 1)
     elif ai_search == 'A*-misplaced':
         path, time_elapsed, max_nodes = a_star(heuristicalugar)
-        for board in path:
-            imprimir_tabuleiro(board)
-        print(len(path) - 1, time_elapsed, max_nodes)
+        imprimir_resultados(path, max_nodes, time_elapsed, len(path) - 1)
     elif ai_search == 'A*-Manhattan':
         path, time_elapsed, max_nodes = a_star(heuristicadistancia)
-        for board in path:
-            imprimir_tabuleiro(board)
-        print(len(path) - 1, time_elapsed, max_nodes)
+        imprimir_resultados(path, max_nodes, time_elapsed, len(path) - 1)

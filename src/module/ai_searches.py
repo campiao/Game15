@@ -21,8 +21,6 @@ def bfs():
             continue
         visited.add(str(node))
         for succesor in generate_descendente(node):
-            if str(succesor) in visited:
-                continue
             new_path = path + [succesor]
             queue.appendleft(new_path)
     return None
@@ -45,8 +43,6 @@ def dfs():
             continue
         visited.add(str(node))
         for successor in generate_descendente(node):
-            if str(successor) in visited:
-                continue
             new_path = path + [successor]
             stack.append(new_path)
     return None
@@ -68,8 +64,6 @@ def a_star(heuristic):
             continue
         visited.add(str(node))
         for successor in generate_descendente(node):
-            if str(successor) in visited:
-                continue
             heapq.heappush(minheap, (len(path) + heuristic(successor), successor, path + [successor]))
     return None
 
@@ -90,8 +84,6 @@ def greedy(heuristic):
             continue
         visited.add(str(node))
         for successor in generate_descendente(node):
-            if str(successor) in visited:
-                continue
             heapq.heappush(minheap, (heuristic(successor), successor, path + [successor]))
     return None
 

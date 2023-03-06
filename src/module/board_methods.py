@@ -17,6 +17,20 @@ def imprimir_tabuleiro(board):
         print("\n|++++++++++++++++++++++|")
 
 
+def imprimir_resultados(path, max_nodes, exe_time, num_moves):
+    index = 1
+    for board in path:
+        if index == 1:
+            print(f"Board inicial: {board}")
+            index += 1
+            continue
+        print(f"Move {index - 1}: {board}")
+        index += 1
+    print("Numero maximo de nos em memoria: " + str(max_nodes))
+    print("Tempo de execucao: " + str(exe_time))
+    print("Numero de movimentos: " + str(num_moves))
+
+
 def encontrar_vazio(board):
     for i in range(BOARD_SIZE):
         for j in range(BOARD_SIZE):
@@ -47,25 +61,30 @@ def generate_descendente(board):
 
 
 def count_inversions(board):
+    board_in_list = []
+    for linha in board:
+        for element in linha:
+            board_in_list.append(element)
     inversions = 0
-    for i in range(len(board)):
-        for j in range(i + 1, len(board)):
-            if board[i] > board[j] != 0 and board[i] != 0:
+    for i in range(len(board_in_list) - 1):
+        for j in range(i + 1, len(board_in_list)):
+            if board_in_list[i] != 0 and board_in_list[j] != 0 and board_in_list[i] > board_in_list[j]:
                 inversions += 1
     return inversions
 
 
-def is_solvable(board_i, board_f):
-    inversions_i = count_inversions(board_i)
-    inversions_f = count_inversions(board_f)
-    solv_i = inversions_i % 2 == 0
-    solv_f = inversions_f % 2 == 0
-    if solv_i and solv_f:
-        return True
-    if (solv_i and not solv_f) or (not solv_i and solv_f):
-        return False
-    else:
-        return True
+def is_solvable(board):
+    inversions = count_inversions(board)
+    for i in range(BOARD_SIZE):
+        for j in range(BOARD_SIZE):
+            if board[i][j] == 0:
+                if (i % 2 != 0 and inversions % 2 == 0) or (i % 2 == 0 and inversions % 2 != 0):
+                    return True
+    return False
+
+
+def final_position_reachable(board_i, board_f):
+    return is_solvable(board_i) == is_solvable(board_f)
 
 
 # vê a legalidade de um movimento e executa esse movimento
