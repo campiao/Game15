@@ -1,11 +1,12 @@
 from sys import argv
 from os import system
+import sys
 
 from board_config import *
-from ai_searches import bfs, dfs, a_star, greedy, iterativo, heuristicalugar, heuristicadistancia
+from ai_searches import bfs, dfs, a_star, greedy, iterative_deepening_search, heuristicalugar, heuristicadistancia
 from board_methods import *
 
-
+max_depth=sys.maxsize
 # --------------------------------------------------------------------------
 
 
@@ -14,7 +15,7 @@ def jogar_player():
     jogadas = 0
     board_atual = board_inicial
     if not final_position_reachable(board_inicial, board_goal):
-        print("Impossivel chegar a configuracao final...")
+        print("Esta configuração não tem solução...")
         return
     print("\nO objetivo é chegar a esta configuração")
     imprimir_tabuleiro(board_goal)
@@ -39,7 +40,7 @@ def jogar_player():
 def jogar_ai():
     read_inicial_n_final_state()
     if not final_position_reachable(board_inicial, board_goal):
-        print("Impossivel chegar a configuracao final...")
+        print("Esta configuração não tem solução...")
         return
     ai_search = argv[1]
     print(f"Metodo AI utilizado: {ai_search}")
@@ -61,6 +62,6 @@ def jogar_ai():
     elif ai_search == 'A*-Manhattan':
         path, time_elapsed, max_nodes = a_star(heuristicadistancia)
         imprimir_resultados(path, max_nodes, time_elapsed, len(path) - 1)
-    elif ai_search == 'IDFS':
-        path, time_elapsed, max_nodes = iterativo()
+    elif ai_search =='IDFS':
+        path, time_elapsed,max_nodes= iterative_deepening_search(max_depth)
         imprimir_resultados(path, max_nodes, time_elapsed, len(path) - 1)
